@@ -453,6 +453,6 @@ rm "$dump/$inv_name" 2>/dev/null
 # unset script variables
 END_MARKER_VAR=1
 
-
+cleanup_and_exit
 
 done
