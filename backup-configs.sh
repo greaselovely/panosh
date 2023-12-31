@@ -40,7 +40,7 @@ function get_config() {
 }
 
 function check_hostname(){
-	tar -xvf "$dump/$inv_name.tgz" -C "$dump/$inv_name"
+	tar -xf "$dump/$inv_name.tgz" -C "$dump/$inv_name"
 	hostname=$(xmllint --xpath "string(//hostname/text())" "$dump/$inv_name/running-config.xml")
 }
 
@@ -53,9 +53,7 @@ for i in $(echo -e "$equipment");
 		key=$(echo $i | awk 'BEGIN{FS="_";}{print $4}')
 		
 clear
-echo
-echo
-echo -e "${info}Attempting to Backup $inv_name..."
+echo -e "\n\n${info}Attempting to Backup $inv_name..."
 
 get_config
 
@@ -68,7 +66,7 @@ if [ -z "$hostname" ]
 	else status="SUCCESS"
 fi
 
-# rm -rf "$dump/$hostname"
+rm -rf "$dump/$hostname"
 echo -e "$today\t$inv_name\t$hostname\t$status" >> "$dump/$win"
 
 done;
