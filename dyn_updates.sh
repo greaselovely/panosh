@@ -1,0 +1,105 @@
+#!/bin/bash
+
+# A much lesser used script, was used early on to audit dynamic 
+# updates as firewalls weren't being configured consistently.  
+# Relies on the backup_configs.sh script to have run or it will call 
+# it if there are no configurations backed up already for today.
+# It will extract the running-config.xml, and then query the dynamic updates.  
+# It will iterate the XML and provide output on what the firewall
+# is licensed for.
+
+
+
+################################
+########## SETTINGS ############
+
+subfolder="configs"
+source "./var.sh"
+config_path="${HOME}/$vendor/configs/$today"
+
+equipment=${1:-$(cat $inventory)}
+
+################################
+####### SETTINGS END############
+
+> "$dyndump/$win"
+
+if [ ! "$(ls -A $dump)" ]
+    then 
+        echo -e "${info}Checking For Config Backups..."
+        source "./backup-configs.sh $1"  2>/dev/null
+fi
+
+[ ! -d "$dyndump" ] && mkdir -p "$dyndump"
+
+
+function fetch_config_if_absent() {
+    local inv_name=$1
+    local backup_file="$config_path/$inv_name.tgz"
+
+    if [ ! -f "$backup_file" ]
+    then
+        echo -e "${info}Getting Config for $inv_name..."
+        source "./backup-configs.sh"
+    fi
+}
+
+# Extract data from XML and format it
+function extract_and_format_data() {
+    mkdir -p $1
+    tar -xf "$1.tgz" -C "$1"
+    local file="$1/running-config.xml"
+    local hostname=$(xmllint --xpath "string(//hostname/text())" "$file")
+    printf "%s\n" "$hostname" >> "$dyndump/$win"
+
+    # Extract direct child element names under <update-schedule>
+    local schedule_types=($(xmllint --shell "$file" <<< "cat //update-schedule/*" | awk -F'[<>]' '/^<[^\/][^>]*>$/ {print $2}' | sort -u))
+
+    for type in "${schedule_types[@]}"; do
+        local capitalized_type=$(echo -e "$type" | awk '{print toupper($0)}')
+        local action=$(xmllint --xpath "string(//update-schedule/$type//action)" "$file")
+        local sync=$(xmllint --xpath "string(//update-schedule/$type//recurring//sync-to-peer)" "$file")
+        local time=$(xmllint --xpath "string(//update-schedule/$type//recurring/*/at)" "$file")
+        local frequency=$(xmllint --xpath "name(//update-schedule/$type/recurring/*[at])" "$file")
+
+        # Debug: Print extracted information
+        # echo -e "${info}DEBUG: $type - Action: $action, Sync: $sync, Time: $time, Frequency: $frequency"
+
+        if [ -n "$action" ]
+            then
+                if [ -z "$sync" ]
+                    then
+                        printf "\t%s: %s %s at %s\n" "$capitalized_type" "$action" "$frequency" "$time" >> "$dyndump/$win"
+                    else
+                        printf "\t%s: %s %s at %s sync-to-peer: %s\n" "$capitalized_type" "$action" "$frequency" "$time" "$sync" >> "$dyndump/$win"
+                fi
+
+                if [ "$action" != "download-and-install" ]
+                    then
+                        printf "\tFix %s %s - it is set to %s\n" "$hostname" "$capitalized_type" "$action" | tr '[:lower:]' '[:upper:]' >> "$dyndump/$win"
+                fi
+        fi
+    done
+
+    printf "\n" >> "$dyndump/$win"
+}
+
+
+while IFS= read -r i; do 
+    inv_name=$(echo $i | awk -F'_' '{print $1}')
+
+    fetch_config_if_absent "$inv_name"  
+
+    if [ ! -f "${config_path}/${inv_name}/running-config.xml" ]
+        then
+            extract_and_format_data "$config_path/$inv_name"
+    fi
+
+    rm -rf "$config_path/$inv_name"
+
+done <<< "$equipment"
+
+# Display results
+clear
+cat "$dyndump/$win"
+
