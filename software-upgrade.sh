@@ -85,7 +85,8 @@ function error_check(){
 			errormessage=$(xmllint --xpath "string(//*[@status])" "$file_name")
 			failmessage=$(xmllint --xpath "string(//details/line)" "$file_name")
 			echo -e "${info}$failmessage$errormessage" 
-			exit 0
+			END_MARKER_VAR=1
+			cleanup_and_exit
 	fi
 }
 
@@ -149,7 +150,8 @@ function panos_version_choices() {
     # Check if there are any greater versions
     if [ ${#greater_versions[@]} -eq 0 ]; then
         echo -e "${info}No versions available higher than $running_version."
-        exit 1
+		END_MARKER_VAR=1
+		cleanup_and_exit
     fi
 
     # Display the greater versions as a menu
@@ -246,10 +248,23 @@ function job_progress(){
 			then
 				line=$(xmllint --xpath "string(//line/text())" "$dump/$inv_name.show_job_id.xml")
 				echo -e "${info}Job $jobid has $line..."
-				exit 0
+				cleanup_and_exit
 		fi
 }
 
+
+function cleanup_and_exit(){
+	all_vars=$(compgen -v)
+	start_line=$(echo "$all_vars" | grep -n "^START_MARKER_VAR$" | cut -d: -f1)
+	end_line=$(echo "$all_vars" | grep -n "^END_MARKER_VAR$" | cut -d: -f1)
+	vars_to_unset=$(echo "$all_vars" | sed -n "${start_line},${end_line}p")
+	for var in $vars_to_unset; do
+		if [[ "$var" != "START_MARKER_VAR" && "$var" != "END_MARKER_VAR" ]]; then
+			unset $var
+		fi
+	done
+	exit
+}
 
 
 # main:
@@ -275,7 +290,8 @@ fi
 
 if [ -z "$equipment" ]; then
     echo -e "${info}$inv_name No Asset Detected in Inventory, Exiting...\n"
-    exit 0
+	END_MARKER_VAR=1
+	cleanup_and_exit
 fi
 
 for i in $(echo -e "$equipment");
@@ -319,9 +335,9 @@ if [ "$2" == "force" ]
 	else
 		if [ "$is_current" == "yes" ]
 			then 
-			echo -e "${info}This device is already running the latest PANOS version, nothing to do.  Exiting. "
-			echo
-			exit 0
+			echo -e "\n${info}This device is already running the latest PANOS version, nothing to do.  Exiting.\n\n"
+			END_MARKER_VAR=1
+			cleanup_and_exit
 		fi
 fi 
 
@@ -437,14 +453,6 @@ rm "$dump/$inv_name" 2>/dev/null
 # unset script variables
 END_MARKER_VAR=1
 
-all_vars=$(compgen -v)
-start_line=$(echo "$all_vars" | grep -n "^START_MARKER_VAR$" | cut -d: -f1)
-end_line=$(echo "$all_vars" | grep -n "^END_MARKER_VAR$" | cut -d: -f1)
-vars_to_unset=$(echo "$all_vars" | sed -n "${start_line},${end_line}p")
-for var in $vars_to_unset; do
-    if [[ "$var" != "START_MARKER_VAR" && "$var" != "END_MARKER_VAR" ]]; then
-        unset $var
-    fi
-done
+
 
 done
