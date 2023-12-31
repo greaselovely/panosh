@@ -56,7 +56,7 @@ function request_system_software_info(){
 	apikey="&key=$key"
 	apiurl="https://$ip":"$port/$apiaction$apixpath$apielement$apikey"
 	curl -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"	
-	# current is either yes or no
+	# is_current is either yes or no
 	is_current=$(xmllint --xpath "string(//versions/entry[current='yes']//version)" "$file_name")
 	xmllint --xpath "//versions/entry[latest='yes']" "$file_name" > "$dump/$inv_name.info.xml"
 	downloaded=$(xmllint --xpath "string(//downloaded)" "$dump/$inv_name.info.xml" 2>/dev/null)
@@ -297,7 +297,7 @@ while [ "$current_panos_version" == "" ]
 	do
 		echo -ne "${info}${inv_name}          \033[0K\r"
 		request_system_software_info
-		if [ "$current_panos_version" == "" ]
+		if [ "$is_current" == "" ]
 			then			
 				request_system_software_check
 		fi
