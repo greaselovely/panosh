@@ -293,7 +293,7 @@ clear
 
 show_system_info
 
-while [ "$current_panos_version" == "" ]
+while [ "$is_current" == "" ]
 	do
 		echo -ne "${info}${inv_name}          \033[0K\r"
 		request_system_software_info
