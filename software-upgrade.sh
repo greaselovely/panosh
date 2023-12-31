@@ -254,7 +254,7 @@ function job_progress(){
 
 # main:
 
-initial_vars=$(comm -23 <(set | cut -d= -f1 | LC_ALL=C sort) <(env | cut -d= -f1 | LC_ALL=C sort))
+START_MARKER_VAR=1
 
 clear
 
@@ -441,11 +441,17 @@ fi
 rm "$dump/$inv_name."* 2>/dev/null
 rm "$dump/$inv_name" 2>/dev/null
 
-final_vars=$(comm -23 <(set | cut -d= -f1 | LC_ALL=C sort) <(env | cut -d= -f1 | LC_ALL=C sort))
-new_vars=$(comm -13 <(echo -e "${info}$initial_vars") <(echo -e "${info}$final_vars"))
-for var in $new_vars; do
-    unset "$var" 2>/dev/null
-done
+# unset script variables
+END_MARKER_VAR=1
 
+all_vars=$(compgen -v)
+start_line=$(echo "$all_vars" | grep -n "^START_MARKER_VAR$" | cut -d: -f1)
+end_line=$(echo "$all_vars" | grep -n "^END_MARKER_VAR$" | cut -d: -f1)
+vars_to_unset=$(echo "$all_vars" | sed -n "${start_line},${end_line}p")
+for var in $vars_to_unset; do
+    if [[ "$var" != "START_MARKER_VAR" && "$var" != "END_MARKER_VAR" ]]; then
+        unset $var
+    fi
+done
 
 done
