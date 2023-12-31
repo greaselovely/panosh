@@ -297,7 +297,7 @@ while [ "$is_current" == "" ]
 	do
 		echo -ne "${info}${inv_name}          \033[0K\r"
 		request_system_software_info
-		if [ "$is_current" == "" ]
+		if [ "$current_panos_version" == "" ]
 			then			
 				request_system_software_check
 		fi
