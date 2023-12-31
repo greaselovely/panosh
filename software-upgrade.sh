@@ -293,7 +293,7 @@ clear
 
 show_system_info
 
-echo -ne "${info}${inv_name}          \033[0K\r"
+echo -e "${info}${inv_name}          \033[0K\r"
 request_system_software_info
 request_system_software_check
 clear
