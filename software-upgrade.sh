@@ -412,6 +412,8 @@ fi
 if [ "$downloadorinstall" == "d" ] 
 	then 
 		panos_download_only
+		panos_download
+		show_job_id
 		exit 0
 fi
 
