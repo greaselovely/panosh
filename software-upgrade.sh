@@ -57,7 +57,7 @@ function request_system_software_info(){
 	apiurl="https://$ip":"$port/$apiaction$apixpath$apielement$apikey"
 	curl -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"	
 	# current is either yes or no
-	current=$(xmllint --xpath "string(//versions/entry[current='yes']//version)" "$file_name")
+	is_current=$(xmllint --xpath "string(//versions/entry[current='yes']//version)" "$file_name")
 	xmllint --xpath "//versions/entry[latest='yes']" "$file_name" > "$dump/$inv_name.info.xml"
 	downloaded=$(xmllint --xpath "string(//downloaded)" "$dump/$inv_name.info.xml" 2>/dev/null)
 }
@@ -324,7 +324,7 @@ if [ "$2" == "force" ]
 	then
 		echo -e "${info}Forcing Install..."
 	else
-		if [ "$current" == "yes" ]
+		if [ "$is_current" == "yes" ]
 			then 
 			echo -e "${info}This device is already running the latest PANOS version, nothing to do.  Exiting. "
 			echo
