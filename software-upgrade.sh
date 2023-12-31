@@ -293,18 +293,10 @@ clear
 
 show_system_info
 
-while [ "$is_current" == "" ]
-	do
-		echo -ne "${info}${inv_name}          \033[0K\r"
-		request_system_software_info
-		if [ "$current_panos_version" == "" ]
-			then			
-				request_system_software_check
-		fi
-done
-
-
-echo -e "${info}$actual_name  ($current_panos_version)\033[0K\r"
+echo -ne "${info}${inv_name}          \033[0K\r"
+request_system_software_info
+request_system_software_check
+echo -e "${info}$actual_name  ($sw_version)\033[0K\r"
 
 
 if [ "$app_version" -le 8786 ]
