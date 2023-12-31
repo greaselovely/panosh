@@ -73,7 +73,7 @@ function request_system_software_check(){
 	echo -e "${info}Checking with PAN..."
 	curl -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
 	xmllint --xpath "//versions/entry[latest='yes']" "$file_name" > "$dump/$inv_name.latest.xml"
-	current=$(xmllint --xpath "string(//current)" "$dump/$inv_name.latest.xml" 2>/dev/null)
+	current_panos_version=$(xmllint --xpath "string(//current)" "$dump/$inv_name.latest.xml" 2>/dev/null)
 }
 
 function error_check(){
@@ -174,6 +174,7 @@ function panos_version_choices() {
 
 
 function panos_download(){
+	local file_name="$dump/$inv_name.$FUNCNAME.xml"
 	apiaction="api/?&type=op&cmd="
 	apixpath=""
 	apielement="<request><system><software><download><version>$selected_version</version><sync-to-peer>yes</sync-to-peer></download></software></system></request>"
@@ -292,19 +293,18 @@ clear
 
 show_system_info
 
-# $current = yes or no
-while [ "$current" == "" ]
+while [ "$current_panos_version" == "" ]
 	do
-		echo -ne "\t$inv_name          \033[0K\r"
+		echo -ne "${info}${inv_name}          \033[0K\r"
 		request_system_software_info
-		if [ "$current" == "" ]
+		if [ "$current_panos_version" == "" ]
 			then			
 				request_system_software_check
 		fi
 done
 
 
-echo -e "${info}$actual_name  ($current)\033[0K\r"
+echo -e "${info}$actual_name  ($current_panos_version)\033[0K\r"
 
 
 if [ "$app_version" -le 8786 ]
@@ -414,7 +414,7 @@ if [ "$downloadorinstall" == "d" ]
 		panos_download_only
 		panos_download
 		show_job_id
-		exit 0
+
 fi
 
 if [ "$installonly" == "n" ]
@@ -438,8 +438,8 @@ fi
 
 
 
-# rm "$dump/$inv_name."* 2>/dev/null
-# rm "$dump/$inv_name" 2>/dev/null
+rm "$dump/$inv_name."* 2>/dev/null
+rm "$dump/$inv_name" 2>/dev/null
 
 final_vars=$(comm -23 <(set | cut -d= -f1 | LC_ALL=C sort) <(env | cut -d= -f1 | LC_ALL=C sort))
 new_vars=$(comm -13 <(echo -e "${info}$initial_vars") <(echo -e "${info}$final_vars"))
