@@ -27,7 +27,8 @@ if [ $1 ]
 	else
 		default_value="frwl"
 		echo
-		read -p "    Name or part of name of the device you want to schedule [$default_value]: " tempdevice
+		echo -en "${question}Name or part of name of the device you want to schedule "
+		read -p "[$default_value]: " tempdevice
 		tempdevice=${tempdevice:-$default_value}
 		device=$(grep -i "$tempdevice" "$inventory")
 fi
