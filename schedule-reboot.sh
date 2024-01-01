@@ -6,8 +6,6 @@
 # reboots easily instead of manually editing the file.  That's all
 # this does, lazy man's script.
 
-
-
 ################################
 ########## SETTINGS ############
 

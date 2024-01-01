@@ -22,7 +22,6 @@
 # This file does not use var.sh so you'll have to modify this 
 # script as well for any path changes you want.
 
-
 # This file can't use var.sh since it creates a loop.
 sleep_seconds=5
 today=$(date +%m-%d-%Y)

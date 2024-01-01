@@ -3,9 +3,7 @@
 # Usage: ./script-name.sh
 #     or ./script-name.sh HQ
 
-
 # Utility script to get the SN, hostname, model and PAN-OS version of firewall(s). 
-
 
 ################################
 ########## SETTINGS ############

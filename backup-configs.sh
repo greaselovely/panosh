@@ -8,8 +8,6 @@
 # this is a much easier way to do it.  Schedule this to run 
 # via crontab as well to automate backups.
 
-
-
 clear
 ################################
 ########## SETTINGS ############

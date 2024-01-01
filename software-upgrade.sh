@@ -10,7 +10,6 @@
 # row unattended or otherwise, so I just do one at a time for 
 # now but I bet it could be massaged better.
 
-
 # Ideas:
 # check for versions above the current running version and provide a menu option - completed 12.28.23
 # check for versions above the current running version and also show base version that may be needed

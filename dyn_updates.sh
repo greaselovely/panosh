@@ -8,8 +8,6 @@
 # It will iterate the XML and provide output on what the firewall
 # is licensed for.
 
-
-
 ################################
 ########## SETTINGS ############
 

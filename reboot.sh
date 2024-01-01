@@ -19,8 +19,6 @@
 # have to setup sendmail on your box to 
 # get email notifications.
 
-
-clear
 ################################
 ########## SETTINGS ############
 
@@ -34,6 +32,8 @@ equipment=$(cat $rb | sort -r 2>/dev/null)
 
 ################################
 ####### SETTINGS END############
+
+
 
 function reboot_frwl(){
 	# REBOOT COMMAND!
@@ -113,11 +113,10 @@ done
 #nap time
 sleep 1800
 
-
-
 #########################################
 ########## Check On Reboots #############
 
+clear
 
 equipment=$(cat $rb | sort -r 2>/dev/null)
 

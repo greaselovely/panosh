@@ -5,7 +5,6 @@
 # for the purpose of allowing traffic inbound for specific
 # use cases.
 
-
 subfolder="address_object"
 source "./var.sh"
 interface_name="ethernet1/1"
