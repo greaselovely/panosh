@@ -434,7 +434,7 @@ for i in $(echo -e "$equipment");
 		else
 			if [ "$rebootquestion" = "y" ];
 				then 
-					echo -e "${info}${inv_name}_${ip}_${port}_${key}" >> "$bounce/$rebootlist"
+					echo -e "${inv_name}_${ip}_${port}_${key}" >> "$bounce/$rebootlist"
 					echo -e "${info}Current Reboots Scheduled :\n"
 					scheduled=$(cat "$bounce/$rebootlist")
 					for i in $(echo -e "$scheduled");
