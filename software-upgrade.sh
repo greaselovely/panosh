@@ -285,6 +285,7 @@ if [ -z "$frwl" ]; then
     read -p "[$default_value]: " frwl
     frwl=${frwl:-$default_value}
 	echo "DEBUG: $frwl"
+	exit
 fi
 
 if [ "$frwl" = "all" ]; then
