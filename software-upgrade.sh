@@ -86,7 +86,7 @@ function error_check(){
 			failmessage=$(xmllint --xpath "string(//details/line)" "$file_name")
 			echo -e "${info}$failmessage$errormessage" 
 			END_MARKER_VAR=1
-			cleanup_and_exit
+			cleanup_and_exit yes
 	fi
 }
 
@@ -151,7 +151,7 @@ function panos_version_choices() {
     if [ ${#greater_versions[@]} -eq 0 ]; then
         echo -e "${info}No versions available higher than $running_version."
 		END_MARKER_VAR=1
-		cleanup_and_exit
+		cleanup_and_exit yes
     fi
 
     # Display the greater versions as a menu
@@ -248,12 +248,13 @@ function job_progress(){
 			then
 				line=$(xmllint --xpath "string(//line/text())" "$dump/$inv_name.show_job_id.xml")
 				echo -e "${info}Job $jobid has $line..."
-				cleanup_and_exit
+				cleanup_and_exit yes
 		fi
 }
 
 
 function cleanup_and_exit(){
+	local do_we_exit=$1
 	all_vars=$(compgen -v)
 	start_line=$(echo "$all_vars" | grep -n "^START_MARKER_VAR$" | cut -d: -f1)
 	end_line=$(echo "$all_vars" | grep -n "^END_MARKER_VAR$" | cut -d: -f1)
@@ -263,7 +264,10 @@ function cleanup_and_exit(){
 			unset $var
 		fi
 	done
-	exit
+	if [ "$do_we_exit" == "yes" ]
+	then
+		exit
+	fi
 }
 
 
@@ -453,6 +457,6 @@ rm "$dump/$inv_name" 2>/dev/null
 # unset script variables
 END_MARKER_VAR=1
 
-cleanup_and_exit
+cleanup_and_exit no
 
 done
