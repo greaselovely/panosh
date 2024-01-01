@@ -91,7 +91,7 @@ function extract_and_format_data() {
 
 for i in $(echo -e "$equipment");
 	do 
-        inv_name=$(echo $i | awk -F'_' '{print $1}')
+        inv_name=$(echo $i | awk -F'_' '{print $1}'  | awk '{print toupper($0)}')
         fetch_config "$inv_name"  
         extract_and_format_data "$config_path/$inv_name"
         rm -rf "$config_path/$inv_name"
