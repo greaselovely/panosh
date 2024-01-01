@@ -59,12 +59,12 @@ for i in $(echo -e "$equipment");
 		port=$(echo $i | awk 'BEGIN{FS="_";}{print $3}')
 		key=$(echo $i | awk 'BEGIN{FS="_";}{print $4}')
 
-echo -e "\n\n${info}Attempting to access $inv_name..."
+	echo -en "\n\n${info}Attempting to access $inv_name...\r"
 
-sys_info
-error_check
+	sys_info
+	error_check
 
-echo -e "\t$inv_name\t\t$model_number\t\t$serial_number\t\t$sw_version">> "$dump/$win"
+	echo -e "\t$inv_name\t\t$model_number\t\t$serial_number\t\t$sw_version">> "$dump/$win"
 done;
 
 clear
