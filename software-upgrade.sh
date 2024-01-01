@@ -330,9 +330,6 @@ fi
 
 error_check
 
-
-request_system_software_check
-
 if [ "$2" == "force" ]
 	then
 		echo -e "${info}Forcing Install..."
