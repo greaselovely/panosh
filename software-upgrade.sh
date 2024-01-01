@@ -355,7 +355,8 @@ if [ "$downloaded" == "yes" ]
 	then 
 		echo
 		default_value="n"
-		read -p "    This version is already downloaded, do you want to download it again?  (y/n) [$default_value]: " downloadagain
+		echo -en "${question}This version is already downloaded, do you want to download it again? "
+		read -p "(y/n) [$default_value]: " downloadagain
 		downloadagain=${downloadagain:-default_value}
 fi
 
@@ -365,8 +366,8 @@ prompt_valid=false
 while [ "$prompt_valid" = false ]; do
     if [ "$downloaded" = "yes" ]; then
         default_value="y"
-        echo
-        read -p "    Do you want to install $selected_version on $actual_name? (y/n) [$default_value]: " installonly
+        echo -en "${question}Do you want to install $selected_version on $actual_name? "
+        read -p "(y/n) [$default_value]: " installonly
         installonly=${installonly:-$default_value}
 
         if [[ "$installonly" = "y" || "$installonly" = "n" ]]; then
@@ -375,7 +376,8 @@ while [ "$prompt_valid" = false ]; do
     else
         default_value="i"
         echo
-        read -p "    Do you want to download only -or- install $selected_version on $actual_name? (d/i) [$default_value]: " downloadorinstall
+        echo -en "${question}Do you want to download only -or- install $selected_version on $actual_name? "
+        read -p "(d/i) [$default_value]: " downloadorinstall
         downloadorinstall=${downloadorinstall:-$default_value}
 
         if [[ "$downloadorinstall" = "d" || "$downloadorinstall" = "i" ]]; then
@@ -389,7 +391,8 @@ if [ "$downloadorinstall" = "i" ] || [ "$installonly" == "y" ]
 	then
 		echo
 		default_value="y"
-		read -p "    Do you want to schedule a reboot of $actual_name? (y/n) [$default_value]: " rebootquestion
+		echo -en "${question}Do you want to schedule a reboot of $actual_name? "
+		read -p "(y/n) [$default_value]: " rebootquestion
 		rebootquestion=${rebootquestion:-$default_value}
 		echo
 fi
