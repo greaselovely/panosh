@@ -49,6 +49,7 @@ if [ $1 ]
 fi
 
 > "$dump/$win"
+clear
 echo -e "Hostname\t\tModel\t\tSerial\t\tPAN-OS"  >> "$dump/$win"
 
 for i in $(echo -e "$equipment");
