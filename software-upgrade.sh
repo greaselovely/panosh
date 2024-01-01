@@ -307,6 +307,12 @@ fi
 
 while IFS='_' read -r inv_name ip port key; do
 
+    echo "Inventory Name: $inv_name, IP: $ip, Port: $port, Key: $key"
+
+
+	exit
+
+
 	rm "$dump/$inv_name."* 2>/dev/null
 	rm "$dump/$inv_name" 2>/dev/null
 
