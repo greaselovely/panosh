@@ -227,7 +227,7 @@ function job_progress(){
 		while [ $progress -lt 99 ];
 			do
 				show_job_id
-				echo -ne "\tJob ID $jobid is at $progress%\033[0K\r"
+				echo -ne "${info}Job ID $jobid is at $progress%\033[0K\r"
 				sleep $sleep_seconds
 				# PANW replaces the progress integer with the date and time it ended:
     				# IE:   2023/09/28 15:18:24
