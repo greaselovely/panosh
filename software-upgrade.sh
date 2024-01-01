@@ -426,7 +426,7 @@ if [ "$downloadorinstall" == "d" ]
 	then 
 		panos_download_only
 		panos_download
-		show_job_id
+		job_progress
 
 fi
 
