@@ -21,7 +21,7 @@ source "./var.sh"
 #     or ./configs.sh HQ
 
 if [ "$1" ]
-	echo "DEBUG : var passed is : $1"
+	# echo "DEBUG : var passed is : $1"
 	then 
 		equipment=$(grep -i $1 $inventory | sort)
 	else 
@@ -55,7 +55,7 @@ for i in $(echo -e "$equipment");
 		port=$(echo $i | awk 'BEGIN{FS="_";}{print $3}')
 		key=$(echo $i | awk 'BEGIN{FS="_";}{print $4}')
 		
-# clear
+clear
 echo -e "\n\n${info}Attempting to Backup $inv_name..."
 
 get_config
