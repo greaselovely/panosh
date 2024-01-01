@@ -313,11 +313,11 @@ clear
 
 show_system_info
 
-echo -e "${info}${inv_name}          \033[0K\r"
+echo -e "${info}${inv_name}"
 request_system_software_info
+echo -e "${info}$actual_name  ($sw_version)"
 request_system_software_check
 clear
-echo -e "${info}$actual_name  ($sw_version)\033[0K\r"
 
 
 if [ "$app_version" -le 8786 ]
