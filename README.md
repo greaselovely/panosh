@@ -68,7 +68,4 @@ I use this one more often than not, it can give me a quick glance at a list of f
 
 ### address-update.sh
 
-Originally used to check that "OutsideIP" as an address 
-object was the same as the outside / untrust interface
-for the purpose of allowing traffic inbound for specific
-use cases.
+Originally used to check that "OutsideIP" as an address object was the same as the outside / untrust interface for the purpose of allowing traffic inbound for specific use cases.
