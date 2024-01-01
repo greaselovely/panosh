@@ -38,7 +38,7 @@ ensure_directory_exists "$dyndump"
 function fetch_config() {
     local inv_name=$1
     # local backup_file="$config_path/$inv_name.tgz"
-    echo -e "${info}Getting Config for $inv_name..."
+    # echo -e "${info}Getting Config for $inv_name..."
     source "./backup-configs.sh" $inv_name
 
 }
