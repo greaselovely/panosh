@@ -56,27 +56,28 @@ for i in $(echo -e "$device");
 done
 default_value="y"
 echo
-read -p "    Please confirm you want to schedule $inv_name for reboot?  (y/n) [$default_value]" confirmreboot
+echo -e "${info}Please confirm you want to schedule $inv_name for reboot? "
+read -p "(y/n) [$default_value]" confirmreboot
 confirmreboot=${confirmreboot:-$default_value}
 
 if [ "$confirmreboot" = "y" ];
 	then 
 		echo
-		echo -e "${info}  This has been sent over for reboot overnight!"
+		echo -e "${info}This has been sent over for reboot overnight!"
 		echo -e "${info}$device" >> "$bounce/$rebootlist"
 	else 
 		echo
-		echo -e "${info}  Word.  We did NOT schedule $inv_name for reboot."
+		echo -e "${info}Word.  We did NOT schedule $inv_name for reboot."
 fi
 
 echo
-echo -e "${info}  Here is what is scheduled : "
+echo -e "${info}Here is what is scheduled : "
 echo
 
 scheduled=$(cat "$bounce/$rebootlist")
 
 for i in $(echo -e "$scheduled");
 	do 
-		echo -e "${info}  $i" | awk 'BEGIN{FS="_";}{print $1}'
+		echo -e "${info}$i" | awk 'BEGIN{FS="_";}{print $1}'
 done
 echo

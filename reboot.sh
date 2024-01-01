@@ -48,7 +48,7 @@ function reboot_frwl(){
 	#apielement="<target><show></show></target>"
 	time1=$(date +%H:%M:%S)
 	curl --max-time 59.11 -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
-	echo -e "${info}$name		Start: $time1" >> "$bounce/reboots.log"
+	echo -e "${info}$inv_name		Start: $time1" >> "$bounce/reboots.log"
 }
 
 function validate_frwl(){
@@ -101,7 +101,7 @@ echo -e "${info}Name Version" >> "$bounce/reboots.tmp"
 
 for i in $(echo -e "$equipment");
 	do 
-		name=$(echo $i | awk 'BEGIN{FS="_";}{print $1}')
+		inv_name=$(echo $i | awk 'BEGIN{FS="_";}{print $1}')
 		ip=$(echo $i | awk 'BEGIN{FS="_";}{print $2}')
 		port=$(echo $i | awk 'BEGIN{FS="_";}{print $3}')
 		key=$(echo $i | awk 'BEGIN{FS="_";}{print $4}')
@@ -140,8 +140,8 @@ validate_frwl
 time3=$(date +%H:%M:%S)
 
 
-echo -e "${info}$name $version" >> "$bounce/reboots.tmp"
-echo -e "${info}$name		End: $time3		$version" >> "$bounce/reboots.log"
+echo -e "${info}$inv_name $version" >> "$bounce/reboots.tmp"
+echo -e "${info}$inv_name		End: $time3		$version" >> "$bounce/reboots.log"
 
 done
 ########## Check On Reboots #############

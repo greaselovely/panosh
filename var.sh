@@ -62,7 +62,7 @@ for binary in "${required_binaries[@]}"
 				:
 		else	
 				clear
-				echo -e "[!]\t$binary is not installed. Please install it to continue.\n"
+				echo -e "${alert}$binary is not installed. Please install it to continue.\n"
 				exit 1
     	fi
 done
@@ -90,6 +90,6 @@ fi
 if [ "$perm" != "600" ]
 	then
 		chmod 600 "$inventory"
-		echo -e "[i]\tSecuring Inventory"
+		echo -e "${info}Securing Inventory"
 fi
 ### End Inventory / API List ###

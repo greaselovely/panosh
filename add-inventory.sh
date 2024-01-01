@@ -35,6 +35,10 @@ bounce="${HOME}/$vendor/reboots"
 inventory="${HOME}/$vendor/inventory.txt"
 dump="${HOME}/$vendor/$subfolder/$today"
 
+info="[i]\t"
+alert="[!]\t"
+question="[?]\t"
+
 shopt -s nocasematch
 
 required_binaries=("xmllint" "tar" "grep" "awk" "sed" "curl")
@@ -76,7 +80,7 @@ ensure_directory_exists "$dump"
 if [ ! -e "$inventory" ]
 	then 
 		# clear
-		echo -e "\n[!]\tWe need to create an inventory list!\n[i]\tPlease provide firewall credentials below.\n"
+		echo -e "\n${alert}We need to create an inventory list!\n${info}Please provide firewall credentials below.\n"
 fi
 
 function get_api_key() {
@@ -128,7 +132,7 @@ if [ "$1" ]
 		username="$4"
 		if [ -z "$4" ]
 			then 
-			echo -e "\n\n[?]\tHere's How To Use Me:\n"
+			echo -e "\n\n${question}Here's How To Use Me:\n"
 			"$0" help
 			exit 0
 		fi
@@ -160,8 +164,7 @@ if [ "$error" ]
 		exit 0
 fi
 
-#-=add to inventory?=-
-echo -ne "\n[?]\tDo you want to add to inventory? "
+echo -ne "\n${question}Do you want to add to inventory? "
 default_value="y"
 read -n1 -p "(y/n) [$default_value]: " confirm
 confirm=${confirm:-$default_value}

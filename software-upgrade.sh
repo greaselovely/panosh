@@ -73,7 +73,7 @@ function request_system_software_check(){
 	echo -e "${info}Checking with PAN..."
 	curl -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
 	xmllint --xpath "//versions/entry[latest='yes']" "$file_name" > "$dump/$inv_name.latest.xml"
-	current_panos_version=$(xmllint --xpath "string(//current)" "$dump/$inv_name.latest.xml" 2>/dev/null)
+	current_panos_version=$(xmllint --xpath "string(//current/text())" "$dump/$inv_name.latest.xml" 2>/dev/null)
 }
 
 function error_check(){
@@ -98,12 +98,11 @@ function show_job_id(){
 	apikey="&key=$key"
 	apiurl="https://$ip":"$port/$apiaction$apixpath$apielement$apikey"
 	curl -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
-	show_job_id_message=$(xmllint --xpath "string(//details/line)" "$file_name" 2>/dev/null)
+	show_job_id_message=$(xmllint --xpath "string(//details/line/text())" "$file_name" 2>/dev/null)
 }	
 
 function request_content_upgrade_download_latest(){
 	local file_name="$dump/$inv_name.$FUNCNAME.xml"
-	echo -ne "\t$actual_name          \033[0K\r"
 	echo -e "${info}Latest Content Download First..."
 	apiaction="api/?&type=op&cmd="
 	apixpath=""
@@ -111,7 +110,7 @@ function request_content_upgrade_download_latest(){
 	apikey="&key=$key"
 	apiurl="https://$ip":"$port/$apiaction$apixpath$apielement$apikey"
 	curl -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
-	jobid=$(xmllint --xpath "string(//job)" "$file_name")
+	jobid=$(xmllint --xpath "string(//job/text())" "$file_name")
 }
 
 function request_content_upgrade_install_latest(){
@@ -123,7 +122,7 @@ function request_content_upgrade_install_latest(){
 	apikey="&key=$key"
 	apiurl="https://$ip":"$port/$apiaction$apixpath$apielement$apikey"
 	curl -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
-	jobid=$(xmllint --xpath "string(//job)" "$file_name")
+	jobid=$(xmllint --xpath "string(//job/text())" "$file_name")
 }
 
 
@@ -331,7 +330,7 @@ for i in $(echo -e "$equipment");
 
 	if [ "$2" == "force" ]
 		then
-			echo -e "${info}Forcing Install..."
+			echo -e "${alert}Forcing Install..."
 		else
 			if [ "$is_current" == "yes" ]
 				then 

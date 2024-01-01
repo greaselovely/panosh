@@ -111,13 +111,8 @@ for i in $(echo -e "$equipment");
 
 		echo -e "\n\n${info}Attempting to access $inv_name..."
 
-
 show_int
 show_obj
-
-
-
-
 
 if [ -z "${objip}" ]
 	then

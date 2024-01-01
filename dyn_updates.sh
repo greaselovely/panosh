@@ -30,7 +30,8 @@ if [ ! "$(ls -A $dump)" ]
         source "./backup-configs.sh $1"  2>/dev/null
 fi
 
-[ ! -d "$dyndump" ] && mkdir -p "$dyndump"
+# [ ! -d "$dyndump" ] && mkdir -p "$dyndump"
+ensure_directory_exists "$dyndump"
 
 
 function fetch_config_if_absent() {

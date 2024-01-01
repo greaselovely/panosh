@@ -31,12 +31,13 @@ fi
 
 function get_config() {
 	mkdir -p "$dump/$inv_name"
+	local file_name="$dump/$inv_name.tgz"
 	apiaction="api/?type=export&category=device-state"
 	apixpath=""
 	apielement=""
 	apikey="&key=$key"
 	apiurl="https://$ip":"$port/$apiaction$apixpath$apielement$apikey"
-	curl -sk --connect-timeout 59.01 -# --output "$dump/$inv_name.tgz" "$apiurl"
+	curl -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
 }
 
 function check_hostname(){

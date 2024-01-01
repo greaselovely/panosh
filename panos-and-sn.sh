@@ -16,7 +16,7 @@ source "./var.sh"
 
 
 function sys_info() {
-	file_name="$dump/$inv_name.$FUNCNAME.xml"
+	local file_name="$dump/$inv_name.$FUNCNAME.xml"
 	apiaction="api/?&type=op&cmd="
 	apixpath=""
 	apielement="<show><system><info></info></system></show>"
