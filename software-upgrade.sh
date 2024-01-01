@@ -182,7 +182,6 @@ function panos_download(){
 	apielement="<request><system><software><download><version>$selected_version</version><sync-to-peer>yes</sync-to-peer></download></software></system></request>"
 	apikey="&key=$key"
 	apiurl="https://$ip":"$port/$apiaction$apixpath$apielement$apikey"
-	echo
 	echo -e "${info}Downloading..."
 	curl -sk --connect-timeout 59.01 -# --output "$dump/$inv_name.download" "$apiurl"
 	jobid=$(xmllint --xpath "string(//job)" "$dump/$inv_name.download")
@@ -282,8 +281,10 @@ frwl=$1
 
 # Prompt the user if no argument is given
 if [ -z "$frwl" ]; then
-    read -p "    Provide the partial or full firewall hostname [$default_value]: " frwl
+    echo -en "${info}Provide the partial or full firewall hostname "
+    read -p "[$default_value]: " frwl
     frwl=${frwl:-$default_value}
+	echo "DEBUG: $frwl"
 fi
 
 if [ "$frwl" = "all" ]; then
