@@ -315,9 +315,9 @@ show_system_info
 
 echo -e "${info}${inv_name}"
 request_system_software_info
+clear
 echo -e "${info}$actual_name  ($sw_version)"
 request_system_software_check
-clear
 
 
 if [ "$app_version" -le 8786 ]
