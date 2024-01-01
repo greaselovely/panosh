@@ -56,7 +56,7 @@ for i in $(echo -e "$device");
 done
 default_value="y"
 echo
-echo -e "${info}Please confirm you want to schedule $inv_name for reboot? "
+echo -en "${info}Please confirm you want to schedule $inv_name for reboot? "
 read -p "(y/n) [$default_value]" confirmreboot
 confirmreboot=${confirmreboot:-$default_value}
 
@@ -64,7 +64,7 @@ if [ "$confirmreboot" = "y" ];
 	then 
 		echo
 		echo -e "${info}This has been sent over for reboot overnight!"
-		echo -e "${info}$device" >> "$bounce/$rebootlist"
+		echo -e "$device" >> "$bounce/$rebootlist"
 	else 
 		echo
 		echo -e "${info}Word.  We did NOT schedule $inv_name for reboot."
