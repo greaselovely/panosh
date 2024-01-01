@@ -25,11 +25,11 @@ equipment=${1:-$(cat $inventory)}
 # clear the log file
 > "$dyndump/$win"
 
-if [ ! "$(ls -A $dump)" ]
-    then 
-        echo -e "${info}Checking For Config Backups..."
-        source "./backup-configs.sh $1"  2>/dev/null
-fi
+# if [ ! "$(ls -A $dump)" ]
+#     then 
+#         echo -e "${info}Checking For Config Backups..."
+#         source "./backup-configs.sh $1"  2>/dev/null
+# fi
 
 # [ ! -d "$dyndump" ] && mkdir -p "$dyndump"
 ensure_directory_exists "$dyndump"
