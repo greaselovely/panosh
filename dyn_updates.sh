@@ -34,15 +34,12 @@ fi
 ensure_directory_exists "$dyndump"
 
 
-function fetch_config_if_absent() {
+function fetch_config() {
     local inv_name=$1
-    local backup_file="$config_path/$inv_name.tgz"
+    # local backup_file="$config_path/$inv_name.tgz"
+    echo -e "${info}Getting Config for $inv_name..."
+    source "./backup-configs.sh $inv_name"
 
-    if [ ! -f "$backup_file" ]
-    then
-        echo -e "${info}Getting Config for $inv_name..."
-        source "./backup-configs.sh"
-    fi
 }
 
 # Extract data from XML and format it
@@ -89,7 +86,7 @@ function extract_and_format_data() {
 while IFS= read -r i; do 
     inv_name=$(echo $i | awk -F'_' '{print $1}')
 
-    fetch_config_if_absent "$inv_name"  
+    fetch_config "$inv_name"  
 
     if [ ! -f "${config_path}/${inv_name}/running-config.xml" ]
         then
