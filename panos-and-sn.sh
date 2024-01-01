@@ -59,7 +59,7 @@ for i in $(echo -e "$equipment");
 		port=$(echo $i | awk 'BEGIN{FS="_";}{print $3}')
 		key=$(echo $i | awk 'BEGIN{FS="_";}{print $4}')
 
-	echo -en "\n\n${info}Attempting to access $inv_name...\r"
+	echo -en "\n\n${info}Attempting to access $inv_name...\033[0K\r"
 
 	sys_info
 	error_check
