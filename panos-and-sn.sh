@@ -36,8 +36,7 @@ function error_check(){
 		then 
 			errormessage=$(xmllint --xpath "string(//*[@status])" "$file_name")
 			failmessage=$(xmllint --xpath "string(//details/line)" "$file_name")
-			echo -e "${info}$failmessage$errormessage" 
-			echo
+			echo -e "${alert}$failmessage$errormessage\n" 
 			exit 0
 	fi
 }
@@ -59,7 +58,7 @@ for i in $(echo -e "$equipment");
 		port=$(echo $i | awk 'BEGIN{FS="_";}{print $3}')
 		key=$(echo $i | awk 'BEGIN{FS="_";}{print $4}')
 
-	echo -en "\n\n${info}Attempting to access $inv_name...\033[0K\r"
+	echo -en "${info}Attempting to access $inv_name...\033[0K\r"
 
 	sys_info
 	error_check
