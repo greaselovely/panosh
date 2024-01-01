@@ -61,8 +61,8 @@ function extract_and_format_data() {
         local time=$(xmllint --xpath "string(//update-schedule/$type//recurring/*/at)" "$file")
         local frequency=$(xmllint --xpath "name(//update-schedule/$type/recurring/*[at])" "$file")
 
-        # Debug: Print extracted information
-        # echo -e "${info}DEBUG: $type - Action: $action, Sync: $sync, Time: $time, Frequency: $frequency"
+        Debug: Print extracted information
+        echo -e "${info}DEBUG: $type - Action: $action, Sync: $sync, Time: $time, Frequency: $frequency"
 
         if [ -n "$action" ]
             then
