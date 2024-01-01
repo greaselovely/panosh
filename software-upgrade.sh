@@ -286,7 +286,7 @@ if [ -z "$frwl" ]; then
     frwl=${frwl:-$default_value}
 fi
 
-if [ "$frwl" = "all" ]; then
+if [ "$frwl" == "all" ]; then
     equipment=$(cat "$inventory")
 else
     equipment=$(grep -i "$frwl" "$inventory")
