@@ -68,8 +68,7 @@ function request_system_software_check(){
 	apielement="<request><system><software><check></check></software></system></request>"
 	apikey="&key=$key"
 	apiurl="https://$ip":"$port/$apiaction$apixpath$apielement$apikey"
-	echo
-	echo -e "${info}Checking with PAN..."
+	echo -e "\n${info}Checking with PAN..."
 	curl -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
 	xmllint --xpath "//versions/entry[latest='yes']" "$file_name" > "$dump/$inv_name.latest.xml"
 	current_panos_version=$(xmllint --xpath "string(//current/text())" "$dump/$inv_name.latest.xml" 2>/dev/null)
@@ -342,15 +341,13 @@ for i in $(echo -e "$equipment");
 
 	### determine which version to install
 	### "returns" $selected_version
-	echo 
 	panos_version_choices $sw_version "$dump/$inv_name.request_system_software_check.xml"
 
 
 	if [ "$downloaded" == "yes" ]
 		then 
-			echo
 			default_value="n"
-			echo -en "${question}This version is already downloaded, do you want to download it again? "
+			echo -en "\n${question}This version is already downloaded, do you want to download it again? "
 			read -p "(y/n) [$default_value]: " downloadagain
 			downloadagain=${downloadagain:-default_value}
 	fi
@@ -370,7 +367,6 @@ for i in $(echo -e "$equipment");
 			fi
 		else
 			default_value="i"
-			echo
 			echo -en "${question}Do you want to download only -or- install $selected_version on $actual_name? "
 			read -p "(d/i) [$default_value]: " downloadorinstall
 			downloadorinstall=${downloadorinstall:-$default_value}
@@ -384,12 +380,10 @@ for i in $(echo -e "$equipment");
 	# reboot question ###
 	if [ "$downloadorinstall" = "i" ] || [ "$installonly" == "y" ]
 		then
-			echo
 			default_value="y"
 			echo -en "${question}Do you want to schedule a reboot of $actual_name? "
 			read -p "(y/n) [$default_value]: " rebootquestion
 			rebootquestion=${rebootquestion:-$default_value}
-			echo
 	fi
 	### end prompting ###
 
@@ -430,7 +424,7 @@ for i in $(echo -e "$equipment");
 
 	if [ "$installonly" == "n" ]
 		then
-			echo
+			:
 		else
 			if [ "$rebootquestion" = "y" ];
 				then 
