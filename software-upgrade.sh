@@ -298,20 +298,12 @@ if [ -z "$equipment" ]; then
 	cleanup_and_exit
 fi
 
-# for i in $(echo -e "$equipment");
-# 	do 
-# 		inv_name=$(echo $i | awk 'BEGIN{FS="_";}{print $1}')
-# 		ip=$(echo $i | awk 'BEGIN{FS="_";}{print $2}')
-# 		port=$(echo $i | awk 'BEGIN{FS="_";}{print $3}')
-# 		key=$(echo $i | awk 'BEGIN{FS="_";}{print $4}')
-
-while IFS='_' read -r inv_name ip port key; do
-
-    echo "Inventory Name: $inv_name, IP: $ip, Port: $port, Key: $key"
-
-
-	exit
-
+for i in $(echo -e "$equipment");
+	do 
+		inv_name=$(echo $i | awk 'BEGIN{FS="_";}{print $1}')
+		ip=$(echo $i | awk 'BEGIN{FS="_";}{print $2}')
+		port=$(echo $i | awk 'BEGIN{FS="_";}{print $3}')
+		key=$(echo $i | awk 'BEGIN{FS="_";}{print $4}')
 
 	rm "$dump/$inv_name."* 2>/dev/null
 	rm "$dump/$inv_name" 2>/dev/null
@@ -352,6 +344,7 @@ while IFS='_' read -r inv_name ip port key; do
 
 	### determine which version to install
 	### "returns" $selected_version
+	echo 
 	panos_version_choices $sw_version "$dump/$inv_name.request_system_software_check.xml"
 
 
@@ -466,5 +459,4 @@ while IFS='_' read -r inv_name ip port key; do
 
 	cleanup_and_exit no
 
-# done
-done <<< "$equipment"
+done
