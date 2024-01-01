@@ -85,19 +85,14 @@ function extract_and_format_data() {
 }
 
 
-while IFS= read -r i; do 
-    inv_name=$(echo $i | awk -F'_' '{print $1}')
+for i in $(echo -e "$equipment");
+	do 
+        inv_name=$(echo $i | awk -F'_' '{print $1}')
+        fetch_config "$inv_name"  
+        extract_and_format_data "$config_path/$inv_name"
+        rm -rf "$config_path/$inv_name"
 
-    fetch_config "$inv_name"  
-
-    # if [ ! -f "${config_path}/${inv_name}/running-config.xml" ]
-    #     then
-    extract_and_format_data "$config_path/$inv_name"
-    # fi
-
-    rm -rf "$config_path/$inv_name"
-
-done <<< "$equipment"
+done
 
 # Display results
 clear
