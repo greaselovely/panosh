@@ -45,7 +45,7 @@ function fetch_config() {
 
 # Extract data from XML and format it
 function extract_and_format_data() {
-    mkdir -p "$1"
+    ensure_directory_exists "$1"
     ls $1 & exit
     tar -xf "$1.tgz" -C "$1"
     local file="$1/running-config.xml"
