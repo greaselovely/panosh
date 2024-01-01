@@ -22,6 +22,7 @@ equipment=${1:-$(cat $inventory)}
 ################################
 ####### SETTINGS END############
 
+# clear the log file
 > "$dyndump/$win"
 
 if [ ! "$(ls -A $dump)" ]
@@ -88,10 +89,10 @@ while IFS= read -r i; do
 
     fetch_config "$inv_name"  
 
-    if [ ! -f "${config_path}/${inv_name}/running-config.xml" ]
-        then
-            extract_and_format_data "$config_path/$inv_name"
-    fi
+    # if [ ! -f "${config_path}/${inv_name}/running-config.xml" ]
+    #     then
+    extract_and_format_data "$config_path/$inv_name"
+    # fi
 
     rm -rf "$config_path/$inv_name"
 
