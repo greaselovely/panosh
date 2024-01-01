@@ -95,6 +95,6 @@ for i in $(echo -e "$equipment");
 done
 
 # Display results
-# clear
+clear
 cat "$dyndump/$win"
 
