@@ -63,6 +63,7 @@ function extract_and_format_data() {
 
         Debug: Print extracted information
         echo -e "${info}DEBUG: $type - Action: $action, Sync: $sync, Time: $time, Frequency: $frequency"
+        exit
 
         if [ -n "$action" ]
             then
