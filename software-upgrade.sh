@@ -298,165 +298,167 @@ if [ -z "$equipment" ]; then
 	cleanup_and_exit
 fi
 
-for i in $(echo -e "$equipment");
-	do 
-		inv_name=$(echo $i | awk 'BEGIN{FS="_";}{print $1}')
-		ip=$(echo $i | awk 'BEGIN{FS="_";}{print $2}')
-		port=$(echo $i | awk 'BEGIN{FS="_";}{print $3}')
-		key=$(echo $i | awk 'BEGIN{FS="_";}{print $4}')
+# for i in $(echo -e "$equipment");
+# 	do 
+# 		inv_name=$(echo $i | awk 'BEGIN{FS="_";}{print $1}')
+# 		ip=$(echo $i | awk 'BEGIN{FS="_";}{print $2}')
+# 		port=$(echo $i | awk 'BEGIN{FS="_";}{print $3}')
+# 		key=$(echo $i | awk 'BEGIN{FS="_";}{print $4}')
+
+while IFS='_' read -r inv_name ip port key; do
+
+	rm "$dump/$inv_name."* 2>/dev/null
+	rm "$dump/$inv_name" 2>/dev/null
+
+	clear
+
+	show_system_info
+
+	echo -e "${info}${inv_name}"
+	request_system_software_info
+	clear
+	echo -e "${info}$actual_name  ($sw_version)"
+	request_system_software_check
 
 
-rm "$dump/$inv_name."* 2>/dev/null
-rm "$dump/$inv_name" 2>/dev/null
+	if [ "$app_version" -le 8786 ]
+		then
+			request_content_upgrade_download_latest
+			job_progress
+			request_content_upgrade_install_latest
+			job_progress
+	fi
 
-clear
+	error_check
 
-show_system_info
+	if [ "$2" == "force" ]
+		then
+			echo -e "${info}Forcing Install..."
+		else
+			if [ "$is_current" == "yes" ]
+				then 
+				echo -e "\n${info}This device is already running the latest PANOS version, nothing to do.  Exiting.\n\n"
+				END_MARKER_VAR=1
+				cleanup_and_exit
+			fi
+	fi 
 
-echo -e "${info}${inv_name}"
-request_system_software_info
-clear
-echo -e "${info}$actual_name  ($sw_version)"
-request_system_software_check
+
+	### determine which version to install
+	### "returns" $selected_version
+	panos_version_choices $sw_version "$dump/$inv_name.request_system_software_check.xml"
 
 
-if [ "$app_version" -le 8786 ]
-	then
-		request_content_upgrade_download_latest
-		job_progress
-		request_content_upgrade_install_latest
-		job_progress
-fi
+	if [ "$downloaded" == "yes" ]
+		then 
+			echo
+			default_value="n"
+			echo -en "${question}This version is already downloaded, do you want to download it again? "
+			read -p "(y/n) [$default_value]: " downloadagain
+			downloadagain=${downloadagain:-default_value}
+	fi
 
-error_check
 
-if [ "$2" == "force" ]
-	then
-		echo -e "${info}Forcing Install..."
-	else
-		if [ "$is_current" == "yes" ]
-			then 
-			echo -e "\n${info}This device is already running the latest PANOS version, nothing to do.  Exiting.\n\n"
-			END_MARKER_VAR=1
-			cleanup_and_exit
+	### prompting for downloads, installs ###
+	prompt_valid=false
+	while [ "$prompt_valid" = false ]; do
+		if [ "$downloaded" = "yes" ]; then
+			default_value="y"
+			echo -en "${question}Do you want to install $selected_version on $actual_name? "
+			read -p "(y/n) [$default_value]: " installonly
+			installonly=${installonly:-$default_value}
+
+			if [[ "$installonly" = "y" || "$installonly" = "n" ]]; then
+				prompt_valid=true
+			fi
+		else
+			default_value="i"
+			echo
+			echo -en "${question}Do you want to download only -or- install $selected_version on $actual_name? "
+			read -p "(d/i) [$default_value]: " downloadorinstall
+			downloadorinstall=${downloadorinstall:-$default_value}
+
+			if [[ "$downloadorinstall" = "d" || "$downloadorinstall" = "i" ]]; then
+				prompt_valid=true
+			fi
 		fi
-fi 
+	done
 
-
-### determine which version to install
-### "returns" $selected_version
-panos_version_choices $sw_version "$dump/$inv_name.request_system_software_check.xml"
-
-
-if [ "$downloaded" == "yes" ]
-	then 
-		echo
-		default_value="n"
-		echo -en "${question}This version is already downloaded, do you want to download it again? "
-		read -p "(y/n) [$default_value]: " downloadagain
-		downloadagain=${downloadagain:-default_value}
-fi
-
-
-### prompting for downloads, installs ###
-prompt_valid=false
-while [ "$prompt_valid" = false ]; do
-    if [ "$downloaded" = "yes" ]; then
-        default_value="y"
-        echo -en "${question}Do you want to install $selected_version on $actual_name? "
-        read -p "(y/n) [$default_value]: " installonly
-        installonly=${installonly:-$default_value}
-
-        if [[ "$installonly" = "y" || "$installonly" = "n" ]]; then
-            prompt_valid=true
-        fi
-    else
-        default_value="i"
-        echo
-        echo -en "${question}Do you want to download only -or- install $selected_version on $actual_name? "
-        read -p "(d/i) [$default_value]: " downloadorinstall
-        downloadorinstall=${downloadorinstall:-$default_value}
-
-        if [[ "$downloadorinstall" = "d" || "$downloadorinstall" = "i" ]]; then
-            prompt_valid=true
-        fi
-    fi
-done
-
-# reboot question ###
-if [ "$downloadorinstall" = "i" ] || [ "$installonly" == "y" ]
-	then
-		echo
-		default_value="y"
-		echo -en "${question}Do you want to schedule a reboot of $actual_name? "
-		read -p "(y/n) [$default_value]: " rebootquestion
-		rebootquestion=${rebootquestion:-$default_value}
-		echo
-fi
-### end prompting ###
+	# reboot question ###
+	if [ "$downloadorinstall" = "i" ] || [ "$installonly" == "y" ]
+		then
+			echo
+			default_value="y"
+			echo -en "${question}Do you want to schedule a reboot of $actual_name? "
+			read -p "(y/n) [$default_value]: " rebootquestion
+			rebootquestion=${rebootquestion:-$default_value}
+			echo
+	fi
+	### end prompting ###
 
 
 
-### start working ###
-if [ "$downloadagain" == "y" ]
-	then
-		panos_download
-		error_check
-		job_progress
-		echo -e "${info}Verifying Download...                  "
-		show_job_id
-		TitleCaseConverter "$show_job_id_message"
-		error_check
-fi
+	### start working ###
+	if [ "$downloadagain" == "y" ]
+		then
+			panos_download
+			error_check
+			job_progress
+			echo -e "${info}Verifying Download...                  "
+			show_job_id
+			TitleCaseConverter "$show_job_id_message"
+			error_check
+	fi
 
 
-if [ "$downloadorinstall" == 'i' ]  || [ "$installonly" == "y" ]
-	then
-		panos_install
-		error_check
-		show_job_id
-		error_check
-		panos_install_verified
-		error_check
-		job_progress
+	if [ "$downloadorinstall" == 'i' ]  || [ "$installonly" == "y" ]
+		then
+			panos_install
+			error_check
+			show_job_id
+			error_check
+			panos_install_verified
+			error_check
+			job_progress
 
-fi
+	fi
 
-if [ "$downloadorinstall" == "d" ] 
-	then 
-		panos_download_only
-		panos_download
-		job_progress
+	if [ "$downloadorinstall" == "d" ] 
+		then 
+			panos_download_only
+			panos_download
+			job_progress
 
-fi
+	fi
 
-if [ "$installonly" == "n" ]
-	then
-		echo
-	else
-		if [ "$rebootquestion" = "y" ];
-			then 
-				echo -e "${info}${inv_name}_${ip}_${port}_${key}" >> "$bounce/$rebootlist"
-				echo -e "${info}Current Reboots Scheduled :\n"
-				scheduled=$(cat "$bounce/$rebootlist")
-				for i in $(echo -e "$scheduled");
-					do 
-						echo -e "${info}$i" | awk 'BEGIN{FS="_";}{print $1}'
-				done
-			else
-				echo -e"\tWe are not scheduling $actual_name for reboot, you'll have to reboot it manually."
-		fi
-fi
+	if [ "$installonly" == "n" ]
+		then
+			echo
+		else
+			if [ "$rebootquestion" = "y" ];
+				then 
+					echo -e "${info}${inv_name}_${ip}_${port}_${key}" >> "$bounce/$rebootlist"
+					echo -e "${info}Current Reboots Scheduled :\n"
+					scheduled=$(cat "$bounce/$rebootlist")
+					for i in $(echo -e "$scheduled");
+						do 
+							echo -e "${info}$i" | awk 'BEGIN{FS="_";}{print $1}'
+					done
+				else
+					echo -e"\tWe are not scheduling $actual_name for reboot, you'll have to reboot it manually."
+			fi
+	fi
 
 
 
 
-rm "$dump/$inv_name."* 2>/dev/null
-rm "$dump/$inv_name" 2>/dev/null
+	rm "$dump/$inv_name."* 2>/dev/null
+	rm "$dump/$inv_name" 2>/dev/null
 
-# unset script variables
-END_MARKER_VAR=1
+	# unset script variables
+	END_MARKER_VAR=1
 
-cleanup_and_exit no
+	cleanup_and_exit no
 
-done
+# done
+done <<< "$equipment"
