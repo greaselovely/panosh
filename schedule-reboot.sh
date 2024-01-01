@@ -55,6 +55,7 @@ fi
 for i in $(echo -e "$device");
 	do inv_name=$(echo $i | awk 'BEGIN{FS="_";}{print $1}'| tr "[:lower:]" "[:upper:]")
 done
+
 default_value="y"
 echo
 echo -en "${info}Please confirm you want to schedule $inv_name for reboot? "
@@ -71,9 +72,8 @@ if [ "$confirmreboot" = "y" ];
 		echo -e "${info}Word.  We did NOT schedule $inv_name for reboot."
 fi
 
-echo
+
 echo -e "${info}Here is what is scheduled : "
-echo
 
 scheduled=$(cat "$bounce/$rebootlist")
 
