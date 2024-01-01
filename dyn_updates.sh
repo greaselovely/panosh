@@ -25,22 +25,10 @@ equipment=${1:-$(cat $inventory)}
 # clear the log file
 > "$dyndump/$win"
 
-# if [ ! "$(ls -A $dump)" ]
-#     then 
-#         echo -e "${info}Checking For Config Backups..."
-#         source "./backup-configs.sh $1"  2>/dev/null
-# fi
-
-# [ ! -d "$dyndump" ] && mkdir -p "$dyndump"
 ensure_directory_exists "$dyndump"
 
-
 function fetch_config() {
-    local inv_name=$1
-    # local backup_file="$config_path/$inv_name.tgz"
-    # echo -e "${info}Getting Config for $inv_name..."
-    source "./backup-configs.sh" $inv_name
-
+    source "./backup-configs.sh" $1
 }
 
 # Extract data from XML and format it
@@ -61,10 +49,6 @@ function extract_and_format_data() {
         local time=$(xmllint --xpath "string(//update-schedule/$type//recurring/*/at)" "$file")
         local frequency=$(xmllint --xpath "name(//update-schedule/$type/recurring/*[at])" "$file")
 
-        # Debug: Print extracted information
-        # echo -e "${info}DEBUG: $type - Action: $action, Sync: $sync, Time: $time, Frequency: $frequency"
-        # exit
-
         if [ -n "$action" ]
             then
                 if [ -z "$sync" ]
@@ -84,14 +68,12 @@ function extract_and_format_data() {
     printf "\n" >> "$dyndump/$win"
 }
 
-
 for i in $(echo -e "$equipment");
 	do 
         inv_name=$(echo $i | awk -F'_' '{print $1}'  | awk '{print toupper($0)}')
         fetch_config "$inv_name"  
         extract_and_format_data "$config_path/$inv_name"
         rm -rf "$config_path/$inv_name"
-
 done
 
 # Display results

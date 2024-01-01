@@ -21,9 +21,11 @@ source "./var.sh"
 #     or ./configs.sh HQ
 
 if [ "$1" ]
-	# echo "DEBUG : var passed is : $1"
-	then equipment=$(grep -i $1 $inventory | sort)
-	else equipment=$(cat $inventory | sort)
+	echo "DEBUG : var passed is : $1"
+	then 
+		equipment=$(grep -i $1 $inventory | sort)
+	else 
+		equipment=$(cat $inventory | sort)
 fi
 
 ################################
