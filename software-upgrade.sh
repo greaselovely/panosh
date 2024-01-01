@@ -284,8 +284,6 @@ if [ -z "$frwl" ]; then
     echo -en "${info}Provide the partial or full firewall hostname "
     read -p "[$default_value]: " frwl
     frwl=${frwl:-$default_value}
-	echo "DEBUG: $frwl"
-	exit
 fi
 
 if [ "$frwl" = "all" ]; then
@@ -293,6 +291,9 @@ if [ "$frwl" = "all" ]; then
 else
     equipment=$(grep -i "$frwl" "$inventory")
 fi
+
+echo "DEBUG: $equipment"
+exit
 
 if [ -z "$equipment" ]; then
     echo -e "${info}$inv_name No Asset Detected in Inventory, Exiting...\n"
