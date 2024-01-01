@@ -68,7 +68,7 @@ function request_system_software_check(){
 	apielement="<request><system><software><check></check></software></system></request>"
 	apikey="&key=$key"
 	apiurl="https://$ip":"$port/$apiaction$apixpath$apielement$apikey"
-	echo -e "\n${info}Checking with PAN..."
+	echo -e "${info}Checking with PAN..."
 	curl -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
 	xmllint --xpath "//versions/entry[latest='yes']" "$file_name" > "$dump/$inv_name.latest.xml"
 	current_panos_version=$(xmllint --xpath "string(//current/text())" "$dump/$inv_name.latest.xml" 2>/dev/null)
