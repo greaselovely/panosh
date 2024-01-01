@@ -292,7 +292,7 @@ else
     equipment=$(grep -i "$frwl" "$inventory")
 fi
 
-echo "DEBUG: $equipment"
+echo "DEBUG: Equip: $equipment FRWL: $frwl"
 exit
 
 if [ -z "$equipment" ]; then
