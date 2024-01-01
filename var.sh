@@ -3,6 +3,7 @@
 # A collection of variables being sourced from 
 # other scripts.  Update this file as needed 
 # for paths you prefer
+# add-inventory.sh does not use this file, so update it too.
 
 
 # add to this list any apps / utilities used to check they are installed

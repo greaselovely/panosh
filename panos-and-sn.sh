@@ -2,7 +2,6 @@
 
 # Usage: ./script-name.sh
 #     or ./script-name.sh HQ
-# The second allows you to specify by a simple phrase to 
 
 
 # Utility script to get the SN, hostname, model and PAN-OS version of firewall(s). 

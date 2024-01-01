@@ -4,7 +4,7 @@ Original scripts posted 2020.  There are better ways but I find these to be usef
 
 A small collection of shell scripts I use to manage Palo Alto Networks firewalls.
 
-Only tested using Ubuntu 18, 20, 22, 24 and some limited MacOS under bash.
+Only tested using Ubuntu 18, 20, 22, 24 and some limited MacOS under bash but isn't reliable, re-written for linux.
 
 The initial scripts published use all native tools but because we are parsing the PAN XML from the API calls, we need you to install `xmllint`.
 
