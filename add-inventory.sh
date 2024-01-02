@@ -165,7 +165,7 @@ fi
 
 echo -ne "\n${question}Do you want to add to inventory? "
 default_value="y"
-read -n1 -p "(y/n) [$default_value]: " confirm
+read -p "(y/n) [$default_value]: " confirm
 confirm=${confirm:-$default_value}
 
 if [ "$confirm" != "y" ];
