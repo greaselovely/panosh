@@ -434,6 +434,7 @@ for i in $(echo -e "$equipment");
 			panos_download
 			echo -e "${info}Verifying Download...                  "
 			show_job_id
+			job_progress
 			TitleCaseConverter "$show_job_id_message"
 			error_check
 
