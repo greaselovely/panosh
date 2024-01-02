@@ -85,8 +85,8 @@ fi
 function get_api_key() {
 	local file_name="$dump/$inv_name.$FUNCNAME.xml"
 	apiurl="https://$ip:$port/api/?type=keygen"
-	echo "$password"
-	curl -X POST -d "user=$username&password=\"$password\"" -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
+	echo "$password" $password
+	curl -X POST -d "user=$username&password=$password" -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
 	key=$(xmllint --xpath "string(//key/text())" "$file_name")
 }
 
