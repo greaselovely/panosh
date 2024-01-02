@@ -1,5 +1,9 @@
 #!/bin/bash
 
+
+# Known issues: 
+# If the password contains '&' it breaks.  Haven't spent time creating a fix.
+
 # Creates the inventory list of firewalls when it doesn't exist,
 # which will be the case when you first run any script.  It will 
 # ask you for the friendly name that you want to call the firewall
@@ -85,7 +89,6 @@ fi
 function get_api_key() {
 	local file_name="$dump/$inv_name.$FUNCNAME.xml"
 	apiurl="https://$ip:$port/api/?type=keygen"
-	echo "$password" $password
 	curl -X POST -d "user=$username&password=$password" -sk --connect-timeout 59.01 -# --output "$file_name" "$apiurl"
 	key=$(xmllint --xpath "string(//key/text())" "$file_name")
 }
