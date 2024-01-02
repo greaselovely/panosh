@@ -174,10 +174,11 @@ if [ "$confirm" != "y" ];
 		echo -e "${info}$key"
 		exit
 	elif
-		if grep -qi "\_$ip\_" "$inventory"
-			then
-				echo -e "${ip} is already in inventory."
-		fi
+		then
+			if grep -qi "\_$ip\_" "$inventory"
+				then
+					echo -e "${ip} is already in inventory."
+			fi
 	else 
 		echo -e "${info}Checking to see if it is accessible"
 		show_system_info
