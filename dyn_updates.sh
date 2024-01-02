@@ -32,7 +32,7 @@ function fetch_config() {
 # Extract data from XML and format it
 function extract_and_format_data() {
     ensure_directory_exists "$1"
-    tar -xf "$1.tgz" -C "$1"
+    tar -xfm "$1.tgz" -C "$1"
     local file="$1/running-config.xml"
     local hostname=$(xmllint --xpath "string(//hostname/text())" "$file")
     printf "%s\n" "$hostname" >> "$dyndump/$win"
