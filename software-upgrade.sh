@@ -431,9 +431,11 @@ for i in $(echo -e "$equipment");
 
 	if [ "$downloadorinstall" == "d" ] 
 		then 
-			panos_download_only
 			panos_download
-			job_progress
+			echo -e "${info}Verifying Download...                  "
+			show_job_id
+			TitleCaseConverter "$show_job_id_message"
+			error_check
 
 	fi
 
