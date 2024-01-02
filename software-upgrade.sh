@@ -76,6 +76,7 @@ function request_system_software_check(){
 			:
 	else
 		echo -e "${alert}${message}\n"
+		END_MARKER_VAR=1
 		cleanup_and_exit yes
 	fi
 	xmllint --xpath "//versions/entry[latest='yes']" "$file_name" > "$dump/$inv_name.latest.xml"
