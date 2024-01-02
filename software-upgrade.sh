@@ -413,6 +413,7 @@ for i in $(echo -e "$equipment");
 
 	if [ "$downloadorinstall" == 'i' ]  || [ "$installonly" == "y" ]
 		then
+			panos_download
 			panos_install
 			error_check
 			show_job_id
