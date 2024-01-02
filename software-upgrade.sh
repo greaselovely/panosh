@@ -415,7 +415,10 @@ for i in $(echo -e "$equipment");
 		then
 			panos_download
 			error_check
-			job_progress
+			echo -e "${info}Verifying Download...                  "
+			show_job_id
+			TitleCaseConverter "$show_job_id_message"
+			error_check
 			panos_install
 			error_check
 			show_job_id
