@@ -229,7 +229,7 @@ function panos_install_verified(){
 function job_progress(){
 	local file_name="$dump/$inv_name.$FUNCNAME.xml"
 	progress="0"
-		while [ $progress -lt 99 ];
+		while [ "$progress" -lt 99 ];
 			do
 				show_job_id
 				echo -ne "${info}Job ID $jobid is at $progress%\033[0K\r"
