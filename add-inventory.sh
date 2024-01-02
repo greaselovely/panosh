@@ -35,7 +35,7 @@ fail="error.txt"
 subfolder="add_inventory"
 final="$vendor$subfolder.txt"
 bounce="${HOME}/$vendor/reboots"
-inventory="${HOME}/$vendor/.inventory.txt"
+inventory="${HOME}/$vendor/\.inventory.txt"
 dump="${HOME}/$vendor/$subfolder/$today"
 
 info="[i]\t"
