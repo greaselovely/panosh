@@ -95,8 +95,8 @@ function clear_all_sessions() {
 
 
 if [ $1 ]
-	then equipment=$(grep -i $1 $inventory)
-	else equipment=$(cat $inventory)
+	then equipment=$(grep -i "$1" "$inventory")
+	else equipment=$(cat "$inventory")
 fi
 
 
