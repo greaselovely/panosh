@@ -202,7 +202,7 @@ function panos_download_only(){
 
 function panos_install(){
 	local file_name="$dump/$inv_name.$FUNCNAME.xml"
-	echo -e "${info}Installing..."
+	echo -e "${info}Installing...              "
 	apiaction="api/?&type=op&cmd="
 	apixpath=""
 	apielement="<request><system><software><install><version>$selected_version</version></install></software></system></request>"
