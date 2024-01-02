@@ -316,7 +316,7 @@ for i in $(echo -e "$equipment");
 	request_system_software_check
 
 
-	if [ "$app_version" -le 8786 ]
+	if [ "$app_version" -le "8786" ]
 		then
 			request_content_upgrade_download_latest
 			job_progress
