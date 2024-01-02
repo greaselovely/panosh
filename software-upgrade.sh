@@ -77,6 +77,7 @@ function request_system_software_check(){
 	else
 		echo -e "${alert}${message}\n"
 		cleanup_and_exit yes
+	fi
 	xmllint --xpath "//versions/entry[latest='yes']" "$file_name" > "$dump/$inv_name.latest.xml"
 	current_panos_version=$(xmllint --xpath "string(//current/text())" "$dump/$inv_name.latest.xml" 2>/dev/null)
 }
