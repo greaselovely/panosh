@@ -290,7 +290,7 @@ else
 fi
 
 if [ -z "$equipment" ]; then
-    echo -e "${info}$inv_name No Asset Detected in Inventory, Exiting...\n"
+    echo -e "${info}${frwl} Not Detected in Inventory, Exiting...\n"
 	END_MARKER_VAR=1
 	cleanup_and_exit
 fi
