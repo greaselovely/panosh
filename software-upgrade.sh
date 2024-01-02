@@ -414,6 +414,8 @@ for i in $(echo -e "$equipment");
 	if [ "$downloadorinstall" == 'i' ]  || [ "$installonly" == "y" ]
 		then
 			panos_download
+			error_check
+			job_progress
 			panos_install
 			error_check
 			show_job_id
