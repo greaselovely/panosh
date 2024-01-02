@@ -334,7 +334,7 @@ for i in $(echo -e "$equipment");
 				then 
 				echo -e "\n${info}This device is already running the latest PANOS version, nothing to do.  Exiting.\n\n"
 				END_MARKER_VAR=1
-				cleanup_and_exit
+				cleanup_and_exit yes
 			fi
 	fi 
 
