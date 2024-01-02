@@ -63,7 +63,7 @@ confirmreboot=${confirmreboot:-$default_value}
 if [ "$confirmreboot" = "y" ];
 	then 
 		echo
-		echo -e "${info}This has been scheduled for reboot. Make sure your cron job is configured.s"
+		echo -e "${info}This has been scheduled for reboot. Make sure your cron job is configured."
 		echo -e "$device" >> "$bounce/$rebootlist"
 	else 
 		echo
