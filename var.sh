@@ -22,15 +22,10 @@ rebootlist="rebootlist.txt"
 dyn="dynamic_updates"
 dyndump="${HOME}/$vendor/$dyn/$today"
 
-# outdated:
-# donotinstall="false"
-# downloadagain="y"
-
-
 ### use if you have sendmail setup.  Some scripts have it commented out
 # emailfrom="From: panosh Admin <no-reply@panosh.local>"
 # emailto="To: my-email-address@domain.com"
-#	email addresses used in the sendmail functions for notifications
+# email addresses used in the sendmail functions for notifications
 ###
 
 info="[i]\t"

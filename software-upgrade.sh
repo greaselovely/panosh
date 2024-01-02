@@ -334,7 +334,7 @@ for i in $(echo -e "$equipment");
 				then 
 				echo -e "\n${info}This device is already running the latest PANOS version, nothing to do.  Exiting.\n\n"
 				END_MARKER_VAR=1
-				cleanup_and_exit
+				cleanup_and_exit yes
 			fi
 	fi 
 
@@ -436,7 +436,7 @@ for i in $(echo -e "$equipment");
 							echo -e "${info}$i" | awk 'BEGIN{FS="_";}{print $1}'
 					done
 				else
-					echo -e"\tWe are not scheduling $actual_name for reboot, you'll have to reboot it manually."
+					echo -e "${info}We are not scheduling $actual_name for reboot, you'll have to reboot it manually."
 			fi
 	fi
 
