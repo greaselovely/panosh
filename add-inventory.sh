@@ -174,7 +174,6 @@ if [ "$confirm" != "y" ];
 		echo -e "${info}$key"
 		exit
 	elif
-		then
 			if grep -qi "\_$ip\_" "$inventory"
 				then
 					echo -e "${ip} is already in inventory."
