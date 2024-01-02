@@ -125,7 +125,7 @@ esac
 
 
 if [ "$1" ]
-	then tempname="$1"
+	then inv_name="$1"
 		ip="$2"
 		port="$3"
 		username="$4"
