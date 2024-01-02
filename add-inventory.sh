@@ -207,4 +207,4 @@ fi
 
 
 #cleanup
-# rm -rf "$dump"
+rm -rf "$dump"
