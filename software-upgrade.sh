@@ -436,7 +436,7 @@ for i in $(echo -e "$equipment");
 							echo -e "${info}$i" | awk 'BEGIN{FS="_";}{print $1}'
 					done
 				else
-					echo -e"\tWe are not scheduling $actual_name for reboot, you'll have to reboot it manually."
+					echo -e "${info}We are not scheduling $actual_name for reboot, you'll have to reboot it manually."
 			fi
 	fi
 
