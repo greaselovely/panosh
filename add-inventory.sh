@@ -182,6 +182,7 @@ if [ "$confirm" != "y" ];
 				echo -e "${info}$hostname\t$model_number\t$serial_number\n\n"
 		else
 			echo -e "${alert}${inv_name} doesn't appear to be accessible."
+		fi
 fi
 
 perm=$(stat -c "%a" "$inventory" 2>/dev/null)
