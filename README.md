@@ -45,7 +45,6 @@ It sleeps for :30 min and then checks to see if the firewall is operational or n
 
 My favorite and the one that caused me the most heartburn.  But it works pretty well, simplifies downloads and software installs.  Limited in some logic functionality but it will do the job.  It would be nice to make a decision on if a base image has been downloaded and/or is needed, but haven't got there.  So you just have to know that you need to do that.  I don't currently trust this to do multiple firewalls in a row unattended or otherwise, so I just do one at a time for now but I bet it could be massaged better.
   
-  
 ### backup-configs.sh
 
 Exports the device state and saves it as $hostname.tgz (which is based off the friendly name you give it in the inventory file).  This file can be used to restore the entire config to a new device should you ever have to do that.  If you ever hope to have to restore a new firewall, this is a much easier way to do it.  Schedule this to run via crontab as well to automate backups.
@@ -54,18 +53,14 @@ Exports the device state and saves it as $hostname.tgz (which is based off the f
 
 Just finds whatever device you're looking for in the inventory and moves it over to the rebootlist.  I needed a way to schedule reboots easily instead of manually editing the file.  That's all this does, lazy man's script.
 
-### serial-number.sh
-
-A much lesser used script, was used early on for random needs, but this just gets the SN, hostname and model of firewall.  Useful, but only a little.
-  
 ### dyn_updates.sh
 
 A much lesser used script, was used early on to audit dynamic updates as firewalls weren't being configured consistently.  Relies on the backup_configs.sh script to have run or it will call it if here are no configurations backed up already for today. It will extract the running-config.xml, and then query the dynamic updates.  It will iterate the XML and provide output on what the firewall is licensed for.
   
-### panos-version.sh
+### panos-and-sn.sh
 
-I use this one more often than not, it can give me a quick glance at a list of firewalls and the versions they are running.  And then I can run the software ugprade as needed and then schedule reboots.  And the world harmoniously begins to hum.
+I use this one more often than not, it can give me a quick glance at a list of firewalls and the PAN-OS versions and their SNs.
 
 ### address-update.sh
 
-Originally used to check that "OutsideIP" as an address object was the same as the outside / untrust interface for the purpose of allowing traffic inbound for specific use cases.
+Originally used to check that "OutsideIP" as an address object was the same as the outside / untrust interface for the purpose of allowing traffic inbound for specific use cases.  More usable at this point of an example of how to do something.
